@@ -9,7 +9,7 @@
 
 ## Syntax
 
-# Array
+### Array
 
         Array can contain only the same type
 
@@ -25,13 +25,12 @@
 
         [3, 4, 2] > [2, 4]  // True
 
-        head------tail------
-        (-_-)(  )(  )(  )(  )
-        ------init------last
+        {head}{-----tail-----}
+        (-__-)(    )(   )(   )
+        {-----init-----}{last}
 
         head [5, 4, 3, 2, 1]    // get the first item
         last [5, 4, 3, 2, 1]    // get the last item
 
         init [5, 4, 3, 2, 1]    // [5, 4, 3, 2] remove the last item
         tail [5, 4, 3, 2, 1]    // [4, 3, 2, 1] remove the first item
-        
