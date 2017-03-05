@@ -1,6 +1,6 @@
 -- Tuple
 
--- Tuples can contain a combination of several types. a set of 2 ~ elements.
+-- Tuples can contain a combination of several types. a set of 2 ~ elements
 
 -- In a list, every tuple must match their element's type
 tuple = [(1, 'a', "asdf"), (2, 'b', "asdf")]
