@@ -2,6 +2,11 @@
 -- '::' is read as "has type of"
 -- NOTE: All types are written in capital case
 
+-- NOTE: Num is a numeric typeclass.
+-- Int, Integer, Float, Double are memebers of Num
+-- Num - Integal  - Int, Integer
+--     - Floating - Float, Double
+
 -- Int      4 bytes range
 -- Integer  really big number
 -- Float    a real floating point with single precision
@@ -59,12 +64,6 @@ minBound :: Int         -- -2147483648
 maxBound :: Char        -- '\1114111'
 maxBound :: (Bool, Int) -- (True, 2146483647) All tuples are member of Bounded
 minBound :: Bounded a => a -- they are polymophic
-
--- Num is a numeric typeclass. Int, Integer, Float, Double are memebers of Num
--- Num - Integal  - Int, Integer
---     - Floating - Float, Double
-:t 20
-20 :: (Num t) => t
 
 
 -- from Integer function get Int or Integer type and turns it into Num

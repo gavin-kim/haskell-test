@@ -36,14 +36,14 @@ product []  -- multiply all items
 [1..20]     -- [1,2,3,4......19,20]
 ['a'..'z']  -- "abcdefghijklmnopqrstuvwxyz"
 [3,6..20]   -- [3,6,9,12,15,18]
-[20,19..1]  -- Caution: [20..1] doesn't work
+[20,19..1]  -- NOTE: [20..1] doesn't work
 
 take 24 [13,26..]       -- get 24 items from index 0 using unlimited list
 take 10 (cycle [1,2,3]) -- [1,2,3,1,2,3,1,2,3,1]
 repeat 5                -- [5,5,5,5,5......]
 replicate 3 10          -- [10,10,10]
 
--- [output, input, filter]
+-- NOTE: List Comprehension [output, input, filter]
 [ x * 2 | x <- [1..10]]            -- [2,4,6,8,10,12,14,16,18,20]
 [ x * 2 | x <- [1..10], x*2 >= 12] -- [12,14,16,18,20]
 [ x | x <- [1,2,3], y <- [4,5]]    -- always create 3 * 2 length list
