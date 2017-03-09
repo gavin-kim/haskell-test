@@ -76,7 +76,8 @@ zipWith' func (x:xs) (y:ys) = func x y : zipWith' func xs ys
 
 -- flip takes a function and 2 parameters and swap the order of parameters
 flip' :: (a -> b -> c) -> b -> a -> c -- func -> b -> a -> c
-flip' func y x = func x y
+-- flip' func y x = func x y -- function
+flip' f = \x y -> f y x -- lambda
 
 -- zipWith (flip' div) [2,2..] [10,8,6,4,2]
 -- zipWith func [2,2..] [10,8,6,4,2]
@@ -130,6 +131,24 @@ chain x
     | even x = x : chain (x `div` 2)
     | odd x  = x : chain (x * 3 + 1)
 
--- check how many list retur
+
+-- check how many lists are in the result
 numLongChains = length (filter isLong (map chain [1..100]))
-    where isLong list = length list > 15 -- predicate function
+    where isLong list = length list > 15 -- cunstruct predicate function
+
+-- NOTE: Lambda is expression, syntax: (\x y -> x + y)
+-- (\xs -> length xs > 15) :: Foldable t => t a -> Bool
+numLongChains' = length (filter (\xs -> length xs > 15) (map chain [1..100]))
+
+
+-- Get a function that takes a parameter.
+listOfFuns = map (*) [0..]
+-- map (*)       :: Num a => [a] -> [a -> a]
+-- map (*) [0..] :: (Enum a, Num a) => [a -> a]
+-- returns a list of functions [(0*), (1*), (2*), (3*), ..]
+
+-- (listOfFuns !! 4) 5,  get index 4 function (4*) and apply 5 to the function
+
+addThree :: (Num a ) => a -> a -> a -> a
+-- addThree x y z = x + y + z             -- function
+addThree = \x -> \y -> \z -> x + y + z -- lambda
