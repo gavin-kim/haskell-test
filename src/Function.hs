@@ -12,7 +12,10 @@ fibonacci 1 = 1
 fibonacci n = fibonacci (n - 2) + fibonacci (n - 1)
 
 
+<<<<<<< HEAD
 -- first :: (a, b, c) typeclasses, first (a, b, c) pattern match
+=======
+>>>>>>> c47d664158b0222bf27c8c10a7c222d8abbed5a5
 first :: (a, b, c) -> a
 first (x, _, _) = x
 
@@ -40,6 +43,7 @@ tell (x:y:_) = "This list is long. The first two elements are: "
 
 
 length' :: (Num b) => [b] -> b
+<<<<<<< HEAD
 length' [] = 0                    -- when a length == 0
 length' (_:xs) = 1 + (length' xs) -- when a length > 0
 
@@ -47,6 +51,15 @@ length' (_:xs) = 1 + (length' xs) -- when a length > 0
 sum' :: (Num a) => [a] -> a
 sum' [] = 0                 -- when a length == 0
 sum' (x:xs) = x + (sum' xs) -- when a length > 0
+=======
+length' [] = 0                  -- when a length == 0
+length' (_:xs) = 1 + length' xs -- when a length > 0
+
+
+sum' :: (Num a) => [a] -> a
+sum' [] = 0               -- when a length == 0
+sum' (x:xs) = x + sum' xs -- when a length > 0
+>>>>>>> c47d664158b0222bf27c8c10a7c222d8abbed5a5
 
 
 -- some@(x:y:_) some has a reference to the whole list
