@@ -4,6 +4,9 @@
 -- NOTE: Every function in Haskell officially only takes on parameter.
 
 -- NOTE: Curried functions: functions that accepeted several parameters
+-- foo a = bar b a -- bar is binary function
+-- foo = bar b     -- bar b return unary funtion by currying
+
 -- NOTE: Partially applied functions: Call a function with some of parameters
 --       (max 1) returns (a -> Ordering) that is partially applied function
 
@@ -92,6 +95,8 @@ map' func (x:xs) = func x : map func xs -- apply each element and append it
 -- e.g: map (map (^2)) [[1,2], [3,4,5,6], [7,8]]
 --      map (replicate 3) [3..6]
 
+-- NOTE: filter: cannot work with infinite list vs
+--       takeWhile: work with infinite list
 -- filter takes a predicate that return True of False) and
 -- return a list of elements that are True
 filter' :: (a -> Bool) -> [a] -> [a]
@@ -151,4 +156,85 @@ listOfFuns = map (*) [0..]
 
 addThree :: (Num a ) => a -> a -> a -> a
 -- addThree x y z = x + y + z             -- function
-addThree = \x -> \y -> \z -> x + y + z -- lambda
+addThree = \x y z -> x + y + z -- lambda
+
+
+-- NOTE: FOLD is used to traverse a list once, and return something.
+
+--                        [1,2,3,4,5,6,7,8]
+--       foldl from begin to end--> <--foldr from end to begin
+
+-- NOTE: foldl :: Foldable t => (b -> a -> b) -> b -> t a -> b
+-- NOTE: foldr :: Foldable t => (a -> b -> b) -> b -> t a -> b
+--                (binary function) b: accumulator (t a): Foldable
+
+-- accumulator: called with the the first (or last) element and returns
+--              a new accumulator. The new accumulator is called again with
+--              the next element. At the end, only the accumulator remains
+sum' :: (Num a) => [a] -> a
+sum' xs = foldl (\acc x -> acc + x) 0 xs
+-- sum'   = foldl (+) 0
+
+map'' :: (a -> b) -> [a] -> [b]
+map'' f xs = foldr (\x acc -> f x : acc) [] xs
+-- map f xs = foldl (\acc x -> acc ++ [f x]) [] xs NOTE: ++ is much expensive
+
+-- NOTE: fold11 and foldr1 are used without accumulator(starting value).
+--       They cause runtime errors if called with empty list while foldl
+--       foldr work fine with empty lists.
+foldl1' :: Foldable t => (a -> a -> a) -> t a -> a
+
+maximum' :: (Ord a) => [a] -> a
+maximum' = foldr1 (\x acc -> if x > acc then x else acc)
+
+reverse' :: [a] -> [a]
+reverse' = foldl (\acc x -> x : acc) []
+
+
+-- NOTE: scanl and scanr are like foldl and foldr.
+--       Scan returns a list of accumultor states.
+--       Used to monitor the progression of a function
+
+-- foldl (+) 0 [3,5,2,1] returns [11]
+-- scanl (+) 0 [3,5,2,1] returns [0,3,8,10,11]
+
+-- NOTE: ($): function application. It has the lowest precedence.
+--       e.g. sum (map sqrt [1..130]) == sum $ map sqrt [1..130]
+--            f (g (z x)) == f $ g $ z x
+
+-- map ($ 3) [(4+), (10*), (^2), sqrt] : ($ 3) can be treated like a function
+
+
+-- NOTE: Function composition (f . g) = f(g(x))
+-- NOTE: Making long chains of function composition is discouraged.
+--       let binding is prefered.
+
+(.) :: (b -> c) -> (a -> b) -> a -> c
+f . g = \x -> f (g x)
+-- e.g. map (\x -> negate (abs x)) [-5,-3,-6,-7,-3,2,-19]
+--      map (negate . abs) [-5,-3,-6,-7,-3,2,-19]
+
+-- e.g. map (\xs -> negate (sum (tail xs))) [[1..5],[3..6],[1..7]]
+--      map (negate . sum . tail) [[1..5],[3..6],[1..7]]
+
+-- replicate 100 (product (map (*3) (zipWith max [1,2,3,4,5] [4,5,6,7,8])))
+-- replicate 100 . product . map (*3) . zipWith max [1,2,3,4,5] $ [4,5,6,7,8]
+
+-- fn x = ceiling (negate (tan (cos (max 50 x))))
+
+-- fn = ceiling (negate (tan (cos (max 50))))  --> Doesn't make sense
+-- fn = ceiling . negate . tan . cos . max 50  --> Point free style
+
+
+oddSquareSum :: Integer
+
+-- oddSquareSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+
+-- Function composition
+-- oddSquareSum = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]
+
+-- let binding (prefer way)
+-- oddSquareSum =
+--    let oddSquares = filter odd $ map (^2) [1..]
+--        belowLimit = takeWhile (<10000) oddSquares
+--    in  sum belowLimit
